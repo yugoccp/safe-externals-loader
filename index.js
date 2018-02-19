@@ -34,7 +34,7 @@ var addExternalRequires = function (externals, source) {
   var requires = "\
 var imports = []; \
     " + imports + " \
-    Promise.all(imports).then(function () { \
+    exports.externals = Promise.all(imports).then(function () { \
   ";
   var closing = '});';
   return requires + source + closing;

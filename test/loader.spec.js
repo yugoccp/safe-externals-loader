@@ -68,7 +68,7 @@ describe('Safe Externals Loader', () => {
       const expected = `
         var imports = [];
         if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { window['jQuery'] = result; resolve(); }); }));
-        Promise.all(imports).then(function () {
+        exports.externals = Promise.all(imports).then(function () {
           console.log('foo');
         });
       `;
@@ -86,7 +86,7 @@ describe('Safe Externals Loader', () => {
         var imports = [];
         if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { window['jQuery'] = result; resolve(); }); }));
         if (!(window['react'])) imports.push(new Promise(function(resolve, reject) { require(['react'], function(result) { window['react'] = result; resolve(); }); }));
-        Promise.all(imports).then(function () {
+        exports.externals = Promise.all(imports).then(function () {
           console.log('foo');
         });
       `;
@@ -104,7 +104,7 @@ describe('Safe Externals Loader', () => {
         var imports = [];
         if (!(window['jQuery'] || window['$'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { window['jQuery'] = result; window['$'] = result; resolve(); }); }));
         if (!(window['react'])) imports.push(new Promise(function(resolve, reject) { require(['react'], function(result) { window['react'] = result; resolve(); }); }));
-        Promise.all(imports).then(function () {
+        exports.externals = Promise.all(imports).then(function () {
           console.log('foo');
         });
       `;
@@ -118,7 +118,7 @@ describe('Safe Externals Loader', () => {
       const expected = `
         var imports = [];
         if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { window['jQuery'] = result; resolve(); }); }));
-        Promise.all(imports).then(function () {
+        exports.externals = Promise.all(imports).then(function () {
           console.log('foo');
         });
       `;
