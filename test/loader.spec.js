@@ -67,7 +67,7 @@ describe('Safe Externals Loader', () => {
     it('adds imports to an external if it is not available', () => {
       const expected = `
         var imports = [];
-        if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { window['jQuery'] = result; resolve(); }); }));
+        if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { if (result.externals) { result.externals.then(function () { window['jQuery'] = result; resolve(); }); } else { window['jQuery'] = result; resolve(); } }); }));
         exports.externals = Promise.all(imports).then(function () {
           console.log('foo');
         });
@@ -84,8 +84,8 @@ describe('Safe Externals Loader', () => {
       });
       const expected = `
         var imports = [];
-        if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { window['jQuery'] = result; resolve(); }); }));
-        if (!(window['react'])) imports.push(new Promise(function(resolve, reject) { require(['react'], function(result) { window['react'] = result; resolve(); }); }));
+        if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { if (result.externals) { result.externals.then(function () { window['jQuery'] = result; resolve(); }); } else { window['jQuery'] = result; resolve(); } }); }));
+        if (!(window['react'])) imports.push(new Promise(function(resolve, reject) { require(['react'], function(result) { if (result.externals) { result.externals.then(function () { window['react'] = result; resolve(); }); } else { window['react'] = result; resolve(); } }); }));
         exports.externals = Promise.all(imports).then(function () {
           console.log('foo');
         });
@@ -102,8 +102,8 @@ describe('Safe Externals Loader', () => {
       });
       const expected = `
         var imports = [];
-        if (!(window['jQuery'] || window['$'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { window['jQuery'] = result; window['$'] = result; resolve(); }); }));
-        if (!(window['react'])) imports.push(new Promise(function(resolve, reject) { require(['react'], function(result) { window['react'] = result; resolve(); }); }));
+        if (!(window['jQuery'] || window['$'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { if (result.externals) { result.externals.then(function () { window['jQuery'] = result; window['$'] = result; resolve(); }); } else { window['jQuery'] = result; window['$'] = result; resolve(); } }); }));
+        if (!(window['react'])) imports.push(new Promise(function(resolve, reject) { require(['react'], function(result) { if (result.externals) { result.externals.then(function () { window['react'] = result; resolve(); }); } else { window['react'] = result; resolve(); } }); }));
         exports.externals = Promise.all(imports).then(function () {
           console.log('foo');
         });
@@ -117,7 +117,7 @@ describe('Safe Externals Loader', () => {
       webpackLoaderApiMock.options.entry = ['./foo.js', './bar.js'];
       const expected = `
         var imports = [];
-        if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { window['jQuery'] = result; resolve(); }); }));
+        if (!(window['jQuery'])) imports.push(new Promise(function(resolve, reject) { require(['jquery'], function(result) { if (result.externals) { result.externals.then(function () { window['jQuery'] = result; resolve(); }); } else { window['jQuery'] = result; resolve(); } }); }));
         exports.externals = Promise.all(imports).then(function () {
           console.log('foo');
         });

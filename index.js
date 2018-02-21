@@ -51,8 +51,15 @@ var createImports = function (externals) {
         imports.push( \
           new Promise(function(resolve, reject) { \
             require(['" + external + "'], function (result) { \
-              " + windowSets + "; \
-              resolve(); \
+              if (result.externals) { \
+                result.externals.then(function () { \
+                  " + windowSets + "; \
+                  resolve(); \
+                }); \
+              } else { \
+                " + windowSets + "; \
+                resolve(); \
+              } \
             }); \
           }) \
         ); \
